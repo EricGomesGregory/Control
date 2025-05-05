@@ -2,8 +2,10 @@
 
 
 #include "Characters/ControlPlayableCharacter.h"
+#include "AbilitySystem/ControlAbilitySystemComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/ControlPlayerController.h"
+#include "Player/ControlPlayerState.h"
 #include "Camera/CameraComponent.h"
 
 
@@ -36,6 +38,12 @@ void AControlPlayableCharacter::OnRep_PlayerState() {
 
 void AControlPlayableCharacter::InitAbilityActorInfo() {
 	if (auto* PlayerController = Cast<AControlPlayerController>(Controller)) {
-		// @ Eric TODO: Handle player possession
+		auto* GamePlayerState = CastChecked<AControlPlayerState>(GetPlayerState());
+
+		AbilitySystemComponent = GamePlayerState->GetAbilitySystemComponent();
+		AbilitySystemComponent->InitAbilityActorInfo(GamePlayerState, this);
+		AttributeSet = GamePlayerState->GetAttributeSet();
+
+		// @Eric TODO: Handle player abilities
 	}
 }
