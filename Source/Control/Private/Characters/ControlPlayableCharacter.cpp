@@ -15,11 +15,11 @@ FName AControlPlayableCharacter::CameraComponentName(TEXT("Camera"));
 AControlPlayableCharacter::AControlPlayableCharacter() {
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(SpringArmComponentName);
 	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->bUsePawnControlRotation = true;
 	SpringArmComponent->TargetArmLength = 0.f;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(CameraComponentName);
 	CameraComponent->SetupAttachment(SpringArmComponent);
-	CameraComponent->bUsePawnControlRotation = true;
 }
 
 void AControlPlayableCharacter::PossessedBy(AController* NewController) {
