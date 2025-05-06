@@ -10,6 +10,9 @@
 class UAttributeSet;
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilitySystemComponentChanged, UAbilitySystemComponent*, InASC, UAbilitySystemComponent*, OldASC);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeSetChanged, UAttributeSet*, InAttributeSet, UAttributeSet*, OldAttributeSet);
+
 /**
  * 
  */
@@ -26,13 +29,19 @@ public:
 	virtual UAttributeSet* GetAttributeSet() const;
 	//~End IAbilitySystemInterface
 
-public:
-	static FName AbilitySystemComponentName;
+	void SetAbilitySystemComponent(UAbilitySystemComponent* InASC);
+	
+	void SetAttributeSet(UAttributeSet* InAttributeSet);
 
-	static FName AttributeSetName;
+public:
+	UPROPERTY()
+	FAbilitySystemComponentChanged OnAbilitySystemComponentChanged;
+
+	UPROPERTY()
+	FAttributeSetChanged OnAttributeSetChanged;
 
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Control Protocol|Ability System")
+	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()

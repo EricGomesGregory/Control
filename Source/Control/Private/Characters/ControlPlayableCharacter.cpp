@@ -40,11 +40,16 @@ void AControlPlayableCharacter::OnRep_PlayerState() {
 void AControlPlayableCharacter::InitAbilityActorInfo() {
 	if (auto* PlayerController = Cast<AControlPlayerController>(Controller)) {
 		auto* GamePlayerState = CastChecked<AControlPlayerState>(GetPlayerState());
-
+		/*
 		AbilitySystemComponent = GamePlayerState->GetAbilitySystemComponent();
 		AbilitySystemComponent->InitAbilityActorInfo(GamePlayerState, this);
 		AttributeSet = GamePlayerState->GetAttributeSet();
+		*/
 
-		CharacterDefinition->SetupCharacterGameplay(this);
+		GamePlayerState->SetAbilitySystemComponent(AbilitySystemComponent);
+		GamePlayerState->SetAttributeSet(AttributeSet);
+
 	}
+	
+	CharacterDefinition->SetupCharacterGameplay(this);
 }

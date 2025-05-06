@@ -25,6 +25,11 @@ public:
 	virtual UAttributeSet* GetAttributeSet() const;
 	//~End IAbilitySystemInterface
 
+public:
+	static FName AbilitySystemComponentName;
+
+	static FName AttributeSetName;
+
 protected:
 	virtual void InitAbilityActorInfo() {};
 
@@ -34,7 +39,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Control Protocol|Character")
 	TObjectPtr<UControlCharacterDefinition> CharacterDefinition;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, Category = "Control Protocol|Ability System")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()

@@ -2,21 +2,11 @@
 
 
 #include "Player/ControlPlayerState.h"
-#include "AbilitySystem/ControlAbilitySystemComponent.h"
-#include "AbilitySystem/ControlAttributeSet.h"
+#include "AbilitySystemComponent.h"
 
-
-FName AControlPlayerState::AbilitySystemComponentName(TEXT("Ability System Component"));
-FName AControlPlayerState::AttributeSetName(TEXT("Attribute Set"));
 
 AControlPlayerState::AControlPlayerState(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer) {
-	AbilitySystemComponent = CreateDefaultSubobject<UControlAbilitySystemComponent>(AbilitySystemComponentName);
-	AbilitySystemComponent->SetIsReplicated(true); //Enable component to be replicated on multiplayer
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
-
-	AttributeSet = CreateDefaultSubobject<UControlAttributeSet>(AttributeSetName);
-
 	SetNetUpdateFrequency(100.0f);
 }
 
@@ -26,4 +16,24 @@ UAbilitySystemComponent* AControlPlayerState::GetAbilitySystemComponent() const 
 
 UAttributeSet* AControlPlayerState::GetAttributeSet() const {
 	return AttributeSet;
+}
+
+void AControlPlayerState::SetAbilitySystemComponent(UAbilitySystemComponent* InASC) {
+	UAbilitySystemComponent* OldASC = AbilitySystemComponent;
+	// @Eric TODO: Handle unbinding logic
+
+	AbilitySystemComponent = InASC;
+	// @Eric TODO: Handle binding logic
+
+	OnAbilitySystemComponentChanged.Broadcast(InASC, OldASC);
+}
+
+void AControlPlayerState::SetAttributeSet(UAttributeSet* InAttributeSet) {
+	UAttributeSet* OldAttributeSet = AttributeSet;
+	// @Eric TODO: Handle unbinding logic
+
+	AttributeSet = InAttributeSet;
+	// @Eric TODO: Handle binding logic
+	
+	OnAttributeSetChanged.Broadcast(InAttributeSet, OldAttributeSet);
 }
