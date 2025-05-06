@@ -9,6 +9,7 @@
 
 class UAttributeSet;
 class UGameplayEffect;
+class UControlCharacterDefinition;
 
 
 UCLASS(Abstract)
@@ -30,6 +31,9 @@ protected:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect, float level = 1.f) const;
 
 protected:
+	UPROPERTY(EditAnywhere, Category = "Control Protocol|Character")
+	TObjectPtr<UControlCharacterDefinition> CharacterDefinition;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 

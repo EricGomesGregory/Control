@@ -2,6 +2,7 @@
 
 
 #include "Characters/ControlPlayableCharacter.h"
+#include "Characters/ControlCharacterDefinition.h"
 #include "AbilitySystem/ControlAbilitySystemComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/ControlPlayerController.h"
@@ -44,6 +45,6 @@ void AControlPlayableCharacter::InitAbilityActorInfo() {
 		AbilitySystemComponent->InitAbilityActorInfo(GamePlayerState, this);
 		AttributeSet = GamePlayerState->GetAttributeSet();
 
-		// @Eric TODO: Handle player abilities
+		CharacterDefinition->SetupCharacterGameplay(this);
 	}
 }

@@ -13,5 +13,11 @@ UCLASS()
 class CONTROL_API UControlGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
-	
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Control Protocol|Character|Player")
+	void CharacterMove(FVector2D InActionValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Control Protocol|Character|Player")
+	void CharacterLook(FVector2D InActionValue);
 };
