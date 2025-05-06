@@ -22,9 +22,9 @@ class CONTROL_API IControlPlayerInputInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	UFUNCTION(BlueprintImplementableEvent, Category = "Control Protocol|Player Input")
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Control Protocol|Player Input")
 	FVector2D GetMoveActionValue();
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Control Protocol|Player Input")
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Control Protocol|Player Input")
 	FVector2D GetLookActionValue();
 };
