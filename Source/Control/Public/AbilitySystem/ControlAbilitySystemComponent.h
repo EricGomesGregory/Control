@@ -17,6 +17,8 @@ class CONTROL_API UControlAbilitySystemComponent : public UAbilitySystemComponen
 public:
 	UControlAbilitySystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	FGameplayAbilitySpecHandle AddCharacterAbility(const TSubclassOf<UGameplayAbility>& AbilityClass, FGameplayTag InputTag, int32 Level = 1);
+
 	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);

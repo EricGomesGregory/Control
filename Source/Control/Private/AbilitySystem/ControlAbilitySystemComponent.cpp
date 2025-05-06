@@ -9,6 +9,12 @@ UControlAbilitySystemComponent::UControlAbilitySystemComponent(const FObjectInit
 
 }
 
+FGameplayAbilitySpecHandle UControlAbilitySystemComponent::AddCharacterAbility(const TSubclassOf<UGameplayAbility>& AbilityClass, FGameplayTag InputTag, int32 Level) {
+	auto AbilitySpec = FGameplayAbilitySpec(AbilityClass, Level);
+	AbilitySpec.GetDynamicSpecSourceTags().AddTag(InputTag);
+	return GiveAbility(AbilitySpec);
+}
+
 void UControlAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag) {
 	// @Eric TODO: Implement trigger ability on pressed
 }
