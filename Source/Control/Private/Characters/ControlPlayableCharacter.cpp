@@ -45,6 +45,12 @@ void AControlPlayableCharacter::UnPossessed() {
 	}
 }
 
+void AControlPlayableCharacter::BeginPlay() {
+	Super::BeginPlay();
+
+	CharacterDefinition->SetupCharacterGameplay(this);
+}
+
 void AControlPlayableCharacter::InitAbilityActorInfo() {
 	if (auto* PlayerController = Cast<AControlPlayerController>(Controller)) {
 		auto* GamePlayerState = CastChecked<AControlPlayerState>(GetPlayerState());
@@ -62,6 +68,4 @@ void AControlPlayableCharacter::InitAbilityActorInfo() {
 		GamePlayerState->PossessedCharacter(NewCharacterData);
 
 	}
-	
-	CharacterDefinition->SetupCharacterGameplay(this);
 }

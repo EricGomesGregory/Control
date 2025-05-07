@@ -22,12 +22,16 @@ class CONTROL_API AControlPlayableCharacter : public AControlCharacterBase, publ
 public:
 	AControlPlayableCharacter();
 
-	//~APawn interface
+	//~Begin APawn Interface
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 	
 	virtual void UnPossessed() override;
-	//~End APawn interface
+	//~End APawn Interface
+
+	//~Begin AActor Interface
+	virtual void BeginPlay() override;
+	//~End AActor Interface
 
 public:
 	static FName SpringArmComponentName;
