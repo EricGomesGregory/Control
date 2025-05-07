@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Characters/ControlCharacterBase.h"
 #include "Player/ControlPlayerInputInterface.h"
+#include "Characters/ControlPlayerCharacterInterface.h"
 #include "ControlPlayableCharacter.generated.h"
 
 class USpringArmComponent;
@@ -15,7 +16,8 @@ class UCameraComponent;
  * 
  */
 UCLASS()
-class CONTROL_API AControlPlayableCharacter : public AControlCharacterBase, public IControlPlayerInputInterface
+class CONTROL_API AControlPlayableCharacter : public AControlCharacterBase, 
+	public IControlPlayerInputInterface, public IControlPlayerCharacterInterface
 {
 	GENERATED_BODY()
 	

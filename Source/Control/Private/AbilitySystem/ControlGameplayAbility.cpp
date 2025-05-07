@@ -3,7 +3,16 @@
 
 #include "AbilitySystem/ControlGameplayAbility.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemComponent.h"
 
+
+void UControlGameplayAbility::OnAvatarSet(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) {
+	Super::OnAvatarSet(ActorInfo, Spec);
+
+	if (bActivateAbilityOnGranted) {
+		ActorInfo->AbilitySystemComponent->TryActivateAbility(Spec.Handle, false);
+	}
+}
 
 void UControlGameplayAbility::CharacterMove(FVector2D InActionValue) {
 	if (InActionValue.IsZero()) return;
