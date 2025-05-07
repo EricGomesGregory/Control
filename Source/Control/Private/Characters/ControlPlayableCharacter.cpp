@@ -37,6 +37,14 @@ void AControlPlayableCharacter::OnRep_PlayerState() {
 	InitAbilityActorInfo();
 }
 
+void AControlPlayableCharacter::UnPossessed() {
+	if (auto* PlayerController = Cast<AControlPlayerController>(Controller)) {
+		auto* GamePlayerState = CastChecked<AControlPlayerState>(GetPlayerState());
+		
+		GamePlayerState->UnPossessedCharacter();
+	}
+}
+
 void AControlPlayableCharacter::InitAbilityActorInfo() {
 	if (auto* PlayerController = Cast<AControlPlayerController>(Controller)) {
 		auto* GamePlayerState = CastChecked<AControlPlayerState>(GetPlayerState());
@@ -46,8 +54,12 @@ void AControlPlayableCharacter::InitAbilityActorInfo() {
 		AttributeSet = GamePlayerState->GetAttributeSet();
 		*/
 
-		GamePlayerState->SetAbilitySystemComponent(AbilitySystemComponent);
-		GamePlayerState->SetAttributeSet(AttributeSet);
+		FControlPlayableCharacterData NewCharacterData;
+		NewCharacterData.AbilitySystemComponent = AbilitySystemComponent;
+		NewCharacterData.AttributeSet = AttributeSet;
+		NewCharacterData.CharacterName = CharacterDefinition->GetCharacterName();
+
+		GamePlayerState->PossessedCharacter(NewCharacterData);
 
 	}
 	

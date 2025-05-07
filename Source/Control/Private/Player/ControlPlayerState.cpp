@@ -18,22 +18,20 @@ UAttributeSet* AControlPlayerState::GetAttributeSet() const {
 	return AttributeSet;
 }
 
-void AControlPlayerState::SetAbilitySystemComponent(UAbilitySystemComponent* InASC) {
-	UAbilitySystemComponent* OldASC = AbilitySystemComponent;
-	// @Eric TODO: Handle unbinding logic
+void AControlPlayerState::PossessedCharacter(FControlPlayableCharacterData& NewCharacterData) {
+	AbilitySystemComponent = NewCharacterData.AbilitySystemComponent;
+	AttributeSet = NewCharacterData.AttributeSet;
+	CharacterName = NewCharacterData.CharacterName;
 
-	AbilitySystemComponent = InASC;
-	// @Eric TODO: Handle binding logic
-
-	OnAbilitySystemComponentChanged.Broadcast(InASC, OldASC);
+	OnPossessed.Broadcast(NewCharacterData);
 }
 
-void AControlPlayerState::SetAttributeSet(UAttributeSet* InAttributeSet) {
-	UAttributeSet* OldAttributeSet = AttributeSet;
-	// @Eric TODO: Handle unbinding logic
+void AControlPlayerState::UnPossessedCharacter() {
+	FControlPlayableCharacterData OldCharacterData;
+	OldCharacterData.AbilitySystemComponent = AbilitySystemComponent;
+	OldCharacterData.AttributeSet = AttributeSet;
+	OldCharacterData.CharacterName = CharacterName;
 
-	AttributeSet = InAttributeSet;
-	// @Eric TODO: Handle binding logic
-	
-	OnAttributeSetChanged.Broadcast(InAttributeSet, OldAttributeSet);
+	OnUnPossessed.Broadcast(OldCharacterData);
 }
+

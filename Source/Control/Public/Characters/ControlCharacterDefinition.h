@@ -16,7 +16,7 @@ UCLASS()
 class CONTROL_API UControlCharacterDefinition : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
-	
+
 public:
 	UControlCharacterDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
@@ -24,7 +24,13 @@ public:
 
 	void SetupCharacterGameplay(const AControlCharacterBase* Character);
 
+	UFUNCTION(BlueprintCallable, Category = "Control Protocol|Character Definition")
+	FORCEINLINE FText GetCharacterName() const { return CharacterName; }
+
 protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Control Protocol|Character Definition")
+	FText CharacterName;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Control Protocol|Character Definition")
 	TObjectPtr<UControlAbilitySet> AbilitySet;
 

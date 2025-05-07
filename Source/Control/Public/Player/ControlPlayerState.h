@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
+#include "Characters/ControlPlayableCharacterTypes.h"
 #include "ControlPlayerState.generated.h"
 
 class UAttributeSet;
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilitySystemComponentChanged, UAbilitySystemComponent*, InASC, UAbilitySystemComponent*, OldASC);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttributeSetChanged, UAttributeSet*, InAttributeSet, UAttributeSet*, OldAttributeSet);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FControlPlayerState_PossessedDelegate, FControlPlayableCharacterData&, NewCharacterData);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FControlPlayerState_UnPossessedDelegate, FControlPlayableCharacterData&, OldCharacterData);
 
 /**
  * 
@@ -29,18 +30,20 @@ public:
 	virtual UAttributeSet* GetAttributeSet() const;
 	//~End IAbilitySystemInterface
 
-	void SetAbilitySystemComponent(UAbilitySystemComponent* InASC);
-	
-	void SetAttributeSet(UAttributeSet* InAttributeSet);
+	void PossessedCharacter(FControlPlayableCharacterData& CharacterData);
+	void UnPossessedCharacter();
 
 public:
 	UPROPERTY()
-	FAbilitySystemComponentChanged OnAbilitySystemComponentChanged;
-
-	UPROPERTY()
-	FAttributeSetChanged OnAttributeSetChanged;
+	FControlPlayerState_PossessedDelegate OnPossessed;
+	
+	UPROPERTY(BlueprintAssignable)
+	FControlPlayerState_UnPossessedDelegate OnUnPossessed;
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Control Protocol")
+	FText CharacterName;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
