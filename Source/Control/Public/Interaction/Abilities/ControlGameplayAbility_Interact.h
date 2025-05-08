@@ -37,12 +37,12 @@ protected:
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Control Protocol|Interact")
 	float InteractionScanRate = 0.1f;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Control Protocol|Interact")
 	float InteractionScanRange = 500;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Control Protocol|Interact")
 	TSoftClassPtr<UUserWidget> DefaultInteractionWidgetClass;
 };
