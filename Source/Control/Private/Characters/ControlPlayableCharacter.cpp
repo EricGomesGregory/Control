@@ -54,12 +54,8 @@ void AControlPlayableCharacter::BeginPlay() {
 void AControlPlayableCharacter::InitAbilityActorInfo() {
 	if (auto* PlayerController = Cast<AControlPlayerController>(Controller)) {
 		auto* GamePlayerState = CastChecked<AControlPlayerState>(GetPlayerState());
-		/*
-		AbilitySystemComponent = GamePlayerState->GetAbilitySystemComponent();
 		AbilitySystemComponent->InitAbilityActorInfo(GamePlayerState, this);
-		AttributeSet = GamePlayerState->GetAttributeSet();
-		*/
-
+		
 		FControlPlayableCharacterData NewCharacterData;
 		NewCharacterData.AbilitySystemComponent = AbilitySystemComponent;
 		NewCharacterData.AttributeSet = AttributeSet;
