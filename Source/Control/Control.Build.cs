@@ -20,6 +20,7 @@ public class Control : ModuleRules
 			"GameplayAbilities",
 			"GameplayTags",
 			"GameplayTasks",
+			"UMG",
         });
 
 		// Uncomment if you are using Slate UI

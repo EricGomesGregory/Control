@@ -23,6 +23,9 @@ public:
 	FGameplayTag Attribute_Vital_Health;
 	FGameplayTag Attribute_Vital_MaxHealth;
 
+	FGameplayTag Ability_Interaction_Activate;
+	FGameplayTag Ability_Interaction_Duration_Message;
+
 private:
 	static FControlGameplayTags Instance;
 

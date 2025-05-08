@@ -22,6 +22,13 @@ void FControlGameplayTags::InitializeNativeGameplayTags() {
 
 	Instance.Attribute_Vital_Health = CreateNativeTag("Attribute.Vital.Health");
 	Instance.Attribute_Vital_MaxHealth = CreateNativeTag("Attribute.Vital.MaxHealth");
+
+	
+	/* Ability tags */
+
+	// Interaction
+	Instance.Ability_Interaction_Activate = CreateNativeTag("Ability.Interaction.Activate", "");
+	Instance.Ability_Interaction_Duration_Message = CreateNativeTag("Ability.Interaction.Duration.Message");
 }
 
 FGameplayTag FControlGameplayTags::CreateNativeTag(const FName Name, const FString Description) {
