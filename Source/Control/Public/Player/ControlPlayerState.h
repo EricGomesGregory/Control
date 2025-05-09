@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
+#include "AbilitySystem/ControlAbilitySet.h"
 #include "Characters/ControlPlayableCharacterTypes.h"
 #include "ControlPlayerState.generated.h"
 
@@ -41,7 +42,13 @@ public:
 	FControlPlayerState_UnPossessedDelegate OnUnPossessed;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Control Protocol")
+	UPROPERTY(EditDefaultsOnly, Category = "Control Protocol")
+	TObjectPtr<UControlAbilitySet> AbilitySet;
+
+	UPROPERTY()
+	FAbilitySet_GrantedHandles GrantedHandles;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Control Protocol")
 	FText CharacterName;
 
 	UPROPERTY()
@@ -49,5 +56,4 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-
 };

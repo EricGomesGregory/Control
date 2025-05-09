@@ -2,6 +2,8 @@
 
 
 #include "Player/ControlPlayerState.h"
+#include "AbilitySystem/ControlAbilitySet.h"
+#include "AbilitySystem/ControlAbilitySystemComponent.h"
 #include "AbilitySystemComponent.h"
 
 
@@ -23,6 +25,11 @@ void AControlPlayerState::PossessedCharacter(FControlPlayableCharacterData& NewC
 	AttributeSet = NewCharacterData.AttributeSet;
 	CharacterName = NewCharacterData.CharacterName;
 
+	if (IsValid(AbilitySet)) {
+		auto* GameAbilitySystemComponent = CastChecked<UControlAbilitySystemComponent>(AbilitySystemComponent);
+		AbilitySet->GiveToAbilitySystem(GameAbilitySystemComponent, &GrantedHandles);
+	}
+
 	OnPossessed.Broadcast(NewCharacterData);
 }
 
@@ -31,6 +38,9 @@ void AControlPlayerState::UnPossessedCharacter() {
 	OldCharacterData.AbilitySystemComponent = AbilitySystemComponent;
 	OldCharacterData.AttributeSet = AttributeSet;
 	OldCharacterData.CharacterName = CharacterName;
+
+	auto* GameAbilitySystemComponent = CastChecked<UControlAbilitySystemComponent>(AbilitySystemComponent);
+	GrantedHandles.TakeFromAbilitySystem(GameAbilitySystemComponent);
 
 	OnUnPossessed.Broadcast(OldCharacterData);
 }
