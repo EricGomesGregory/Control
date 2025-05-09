@@ -29,6 +29,10 @@ void FControlGameplayTags::InitializeNativeGameplayTags() {
 	// Interaction
 	Instance.Ability_Interaction_Activate = CreateNativeTag("Ability.Interaction.Activate", "");
 	Instance.Ability_Interaction_Duration_Message = CreateNativeTag("Ability.Interaction.Duration.Message");
+
+	// Hacking
+	Instance.Ability_Hacking_Activate = CreateNativeTag("Ability.Hacking.Activate", "");
+	Instance.Ability_Hacking_Duration_Message = CreateNativeTag("Ability.Hacking.Duration.Message");
 }
 
 FGameplayTag FControlGameplayTags::CreateNativeTag(const FName Name, const FString Description) {

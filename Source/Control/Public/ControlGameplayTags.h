@@ -26,6 +26,9 @@ public:
 	FGameplayTag Ability_Interaction_Activate;
 	FGameplayTag Ability_Interaction_Duration_Message;
 
+	FGameplayTag Ability_Hacking_Activate;
+	FGameplayTag Ability_Hacking_Duration_Message;
+
 private:
 	static FControlGameplayTags Instance;
 
