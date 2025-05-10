@@ -37,14 +37,14 @@ void UControlGameplayAbility_Hack::UpdateHackings(const TArray<FHackingOption>& 
 			Indicators.Reset();
 
 			for (const FHackingOption& HackingOption : InteractiveOptions) {
-				AActor* InteractableTargetActor = UHackingStatics::GetActorFromInteractableTarget(HackingOption.InteractableTarget);
+				AActor* HackableTargetActor = UHackingStatics::GetActorFromHackableTarget(HackingOption.HackableTarget);
 
 				TSoftClassPtr<UUserWidget> HackingWidgetClass =
 					HackingOption.HackingWidgetClass.IsNull() ? DefaultHackingWidgetClass : HackingOption.HackingWidgetClass;
 
 				UIndicatorDescriptor* Indicator = NewObject<UIndicatorDescriptor>();
-				Indicator->SetDataObject(InteractableTargetActor);
-				Indicator->SetSceneComponent(InteractableTargetActor->GetRootComponent());
+				Indicator->SetDataObject(HackableTargetActor);
+				Indicator->SetSceneComponent(HackableTargetActor->GetRootComponent());
 				Indicator->SetIndicatorClass(HackingWidgetClass);
 				IndicatorManager->AddIndicator(Indicator);
 
@@ -71,27 +71,27 @@ void UControlGameplayAbility_Hack::TriggerHacking() {
 		FGameplayTag AbilityHackingActivateTag = FControlGameplayTags::Get().Ability_Hacking_Activate;
 
 		AActor* Instigator = GetAvatarActorFromActorInfo();
-		AActor* InteractableTargetActor = UHackingStatics::GetActorFromHackableTarget(HackingOption.HackableTarget);
+		AActor* HackableTargetActor = UHackingStatics::GetActorFromHackableTarget(HackingOption.HackableTarget);
 
 		// Allow the target to customize the event data we're about to pass in, in case the ability needs custom data
 		// that only the actor knows.
 		FGameplayEventData Payload;
 		Payload.EventTag = AbilityHackingActivateTag;
 		Payload.Instigator = Instigator;
-		Payload.Target = InteractableTargetActor;
+		Payload.Target = HackableTargetActor;
 
-		// If needed we allow the interactable target to manipulate the event data so that for example, a button on the wall
+		// If needed we allow the hackable target to manipulate the event data so that for example, a button on the wall
 		// may want to specify a door actor to execute the ability on, so it might choose to override Target to be the
 		// door actor.
 		HackingOption.HackableTarget->CustomizeHackingEventData(AbilityHackingActivateTag, Payload);
 
 		// Grab the target actor off the payload we're going to use it as the 'avatar' for the hacking, and the
-		// source InteractableTarget actor as the owner actor.
+		// source HackableTarget actor as the owner actor.
 		AActor* TargetActor = const_cast<AActor*>(ToRawPtr(Payload.Target));
 
 		// The actor info needed for the hacking.
 		FGameplayAbilityActorInfo ActorInfo;
-		ActorInfo.InitFromActor(InteractableTargetActor, TargetActor, HackingOption.TargetAbilitySystem);
+		ActorInfo.InitFromActor(HackableTargetActor, TargetActor, HackingOption.TargetAbilitySystem);
 
 		// Trigger the ability using event tag.
 		const bool bSuccess = HackingOption.TargetAbilitySystem->TriggerAbilityFromGameplayEvent(
