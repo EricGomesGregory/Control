@@ -26,45 +26,47 @@ void UAbilityTask_WaitForHackables::AimWithPlayerController(const AActor* InSour
 		return;
 	}
 
-	APlayerController* PC = Ability->GetCurrentActorInfo()->PlayerController.Get();
-	check(PC);
+	if (APlayerController* PC = Ability->GetCurrentActorInfo()->PlayerController.Get()) {
+		FVector ViewStart;
+		FRotator ViewRot;
+		PC->GetPlayerViewPoint(ViewStart, ViewRot);
 
-	FVector ViewStart;
-	FRotator ViewRot;
-	PC->GetPlayerViewPoint(ViewStart, ViewRot);
+		const FVector ViewDir = ViewRot.Vector();
+		FVector ViewEnd = ViewStart + (ViewDir * MaxRange);
 
-	const FVector ViewDir = ViewRot.Vector();
-	FVector ViewEnd = ViewStart + (ViewDir * MaxRange);
+		ClipCameraRayToAbilityRange(ViewStart, ViewDir, TraceStart, MaxRange, ViewEnd);
 
-	ClipCameraRayToAbilityRange(ViewStart, ViewDir, TraceStart, MaxRange, ViewEnd);
+		FHitResult HitResult;
+		LineTrace(HitResult, InSourceActor->GetWorld(), ViewStart, ViewEnd, TraceProfile.Name, Params);
 
-	FHitResult HitResult;
-	LineTrace(HitResult, InSourceActor->GetWorld(), ViewStart, ViewEnd, TraceProfile.Name, Params);
+		const bool bUseTraceResult = HitResult.bBlockingHit && (FVector::DistSquared(TraceStart, HitResult.Location) <= (MaxRange * MaxRange));
 
-	const bool bUseTraceResult = HitResult.bBlockingHit && (FVector::DistSquared(TraceStart, HitResult.Location) <= (MaxRange * MaxRange));
+		const FVector AdjustedEnd = (bUseTraceResult) ? HitResult.Location : ViewEnd;
 
-	const FVector AdjustedEnd = (bUseTraceResult) ? HitResult.Location : ViewEnd;
-
-	FVector AdjustedAimDir = (AdjustedEnd - TraceStart).GetSafeNormal();
-	if (AdjustedAimDir.IsZero()) {
-		AdjustedAimDir = ViewDir;
-	}
-
-	if (!bTraceAffectsAimPitch && bUseTraceResult) {
-		FVector OriginalAimDir = (ViewEnd - TraceStart).GetSafeNormal();
-
-		if (!OriginalAimDir.IsZero()) {
-			// Convert to angles and use original pitch
-			const FRotator OriginalAimRot = OriginalAimDir.Rotation();
-
-			FRotator AdjustedAimRot = AdjustedAimDir.Rotation();
-			AdjustedAimRot.Pitch = OriginalAimRot.Pitch;
-
-			AdjustedAimDir = AdjustedAimRot.Vector();
+		FVector AdjustedAimDir = (AdjustedEnd - TraceStart).GetSafeNormal();
+		if (AdjustedAimDir.IsZero()) {
+			AdjustedAimDir = ViewDir;
 		}
-	}
 
-	OutTraceEnd = TraceStart + (AdjustedAimDir * MaxRange);
+		if (!bTraceAffectsAimPitch && bUseTraceResult) {
+			FVector OriginalAimDir = (ViewEnd - TraceStart).GetSafeNormal();
+
+			if (!OriginalAimDir.IsZero()) {
+				// Convert to angles and use original pitch
+				const FRotator OriginalAimRot = OriginalAimDir.Rotation();
+
+				FRotator AdjustedAimRot = AdjustedAimDir.Rotation();
+				AdjustedAimRot.Pitch = OriginalAimRot.Pitch;
+
+				AdjustedAimDir = AdjustedAimRot.Vector();
+			}
+		}
+
+		OutTraceEnd = TraceStart + (AdjustedAimDir * MaxRange);
+	}
+	else {
+		//@Eric TODO: Handle for NPCs
+	}
 }
 
 bool UAbilityTask_WaitForHackables::ClipCameraRayToAbilityRange(FVector CameraLocation, FVector CameraDirection, FVector AbilityCenter, float AbilityRange, FVector& ClippedPosition) {
