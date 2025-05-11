@@ -25,6 +25,9 @@ public:
 	virtual UAttributeSet* GetAttributeSet() const;
 	//~End IAbilitySystemInterface
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Control Protocol|Character")
+	FORCEINLINE FText GetCharacterName() { return CharacterName; }
+
 public:
 	static FName AbilitySystemComponentName;
 
@@ -44,4 +47,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Control Protocol|Character")
+	FText CharacterName;
 };

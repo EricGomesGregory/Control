@@ -19,6 +19,7 @@ public:
 	FGameplayTag Input_Jump;
 	FGameplayTag Input_Crouch;
 	FGameplayTag Input_Interact;
+	FGameplayTag Input_Hack;
 
 	FGameplayTag Attribute_Vital_Health;
 	FGameplayTag Attribute_Vital_MaxHealth;

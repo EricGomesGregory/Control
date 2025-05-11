@@ -49,6 +49,7 @@ void AControlPlayableCharacter::BeginPlay() {
 	Super::BeginPlay();
 
 	CharacterDefinition->SetupCharacterGameplay(this);
+	CharacterName = CharacterDefinition->GetCharacterName();
 }
 
 void AControlPlayableCharacter::InitAbilityActorInfo() {
@@ -64,4 +65,13 @@ void AControlPlayableCharacter::InitAbilityActorInfo() {
 		GamePlayerState->PossessedCharacter(NewCharacterData);
 
 	}
+}
+
+void AControlPlayableCharacter::GatherHackingOptions(const FHackingQuery& HackingQuery, FHackingOptionBuilder& OptionBuilder) {
+	GEngine->AddOnScreenDebugMessage(4, 1.f, FColor::Red, TEXT("GatherHackingOptions: " + CharacterName.ToString()));
+	OptionBuilder.AddHackingOption(HackingOption);
+}
+
+void AControlPlayableCharacter::CustomizeHackingEventData(const FGameplayTag& HackingEventTag, FGameplayEventData& InOutEventData)
+{
 }

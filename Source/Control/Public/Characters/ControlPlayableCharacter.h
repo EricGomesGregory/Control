@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Characters/ControlCharacterBase.h"
 #include "Player/ControlPlayerInputInterface.h"
-#include "Characters/ControlPlayerCharacterInterface.h"
+#include "Hacking/HackableTarget.h"
 #include "ControlPlayableCharacter.generated.h"
 
 class USpringArmComponent;
@@ -17,7 +17,7 @@ class UCameraComponent;
  */
 UCLASS()
 class CONTROL_API AControlPlayableCharacter : public AControlCharacterBase, 
-	public IControlPlayerInputInterface, public IControlPlayerCharacterInterface
+public IControlPlayerInputInterface, public IHackableTarget
 {
 	GENERATED_BODY()
 	
@@ -35,6 +35,11 @@ public:
 	virtual void BeginPlay() override;
 	//~End AActor Interface
 
+	//~Begin IHackableTarget Interface
+	virtual void GatherHackingOptions(const FHackingQuery& HackingQuery, FHackingOptionBuilder& OptionBuilder) override;
+	virtual void CustomizeHackingEventData(const FGameplayTag& HackingEventTag, FGameplayEventData& InOutEventData) override;
+	//~End IHackableTarget Interface
+
 public:
 	static FName SpringArmComponentName;
 	static FName CameraComponentName;
@@ -49,4 +54,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UCameraComponent> CameraComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Control Protocol")
+	FHackingOption HackingOption;
 };

@@ -16,6 +16,7 @@ void FControlGameplayTags::InitializeNativeGameplayTags() {
 	Instance.Input_Crouch = CreateNativeTag("Input.Crouch", "");
 	Instance.Input_Jump = CreateNativeTag("Input.Jump", "");
 	Instance.Input_Interact = CreateNativeTag("Input.Interact", "");
+	Instance.Input_Hack = CreateNativeTag("Input.Hack", "");
 
 
 	/* Attribute tags */
