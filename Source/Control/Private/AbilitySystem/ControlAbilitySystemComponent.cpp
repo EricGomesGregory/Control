@@ -16,7 +16,13 @@ FGameplayAbilitySpecHandle UControlAbilitySystemComponent::AddCharacterAbility(c
 }
 
 void UControlAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag) {
-	// @Eric TODO: Implement trigger ability on pressed
+	if (InputTag.IsValid() == false) return;
+
+	for (auto& AbilitySpec : GetActivatableAbilities()) {
+		if (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag) == false) continue;
+
+		AbilitySpecInputPressed(AbilitySpec);
+	}
 }
 
 void UControlAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag) {
